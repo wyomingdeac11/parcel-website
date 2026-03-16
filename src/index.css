@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+::selection {
+  background: rgba(232, 101, 26, 0.15);
+}
+
+input::placeholder {
+  color: #999;
+}
+
+input:focus {
+  outline: none;
+}
