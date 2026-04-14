@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parcel — A new way to own in Santa Barbara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --color-bg: #FAFAF7;
+    --color-text: #1C1C1C;
+    --color-text-secondary: #6B6B6B;
+    --color-accent: #C4521A;
+    --color-accent-hover: #A84415;
+    --color-border: #E0DDD6;
+    --color-input-bg: #FFFFFF;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'DM Sans', -apple-system, sans-serif;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ---- NAV BAR ---- */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 40px;
+    background: linear-gradient(to bottom, var(--color-bg) 70%, transparent);
+  }
+
+  .navbar-wordmark {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .navbar-wordmark:hover {
+    opacity: 0.75;
+  }
+
+  .navbar-cta {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .navbar-cta:hover {
+    color: var(--color-accent);
+  }
+
+  /* ---- SECTIONS ---- */
+  section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 40px;
+    text-align: center;
+  }
+
+  /* ---- HERO / PROBLEM ---- */
+  .section-problem {
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .problem-lines {
+    max-width: 720px;
+  }
+
+  .problem-lines p {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--color-text);
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .problem-lines p:nth-child(1) { animation-delay: 0.2s; }
+  .problem-lines p:nth-child(2) { animation-delay: 0.7s; }
+
+  .problem-lines p em {
+    font-style: italic;
+    color: var(--color-text-secondary);
+  }
+
+  /* ---- REFRAME ---- */
+  .section-reframe {
+    min-height: 90vh;
+  }
+
+  .reframe-question {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-text);
+    margin-bottom: 48px;
+    max-width: 600px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reframe-explanation {
+    max-width: 520px;
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+  }
+
+  /* ---- OWNERSHIP ---- */
+  .section-ownership {
+    min-height: 70vh;
+  }
+
+  .ownership-headline {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: 32px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .ownership-details {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    max-width: 420px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+  }
+
+  /* ---- CTA ---- */
+  .section-cta {
+    min-height: 80vh;
+  }
+
+  .cta-headline {
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: 40px;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .cta-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+  }
+
+  .cta-form input[type="email"] {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 300;
+    padding: 14px 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-input-bg);
+    color: var(--color-text);
+    width: 280px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .cta-form input[type="email"]::placeholder {
+    color: #B0ADA6;
+  }
+
+  .cta-form input[type="email"]:focus {
+    border-color: var(--color-accent);
+  }
+
+  .cta-form button {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    padding: 14px 28px;
+    background: var(--color-accent);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .cta-form button:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .cta-form button:active {
+    transform: scale(0.98);
+  }
+
+  .cta-subtext {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    max-width: 400px;
+    line-height: 1.65;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease 0.35s, transform 0.8s ease 0.35s;
+  }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    padding: 40px;
+    text-align: center;
+  }
+
+  .footer-text {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: #B0ADA6;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ---- INTAKE FORM OVERLAY ---- */
+  .intake-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--color-bg);
+    display: none;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .intake-overlay.show {
+    display: flex;
+  }
+
+  .intake-overlay.fade-in {
+    opacity: 1;
+  }
+
+  .intake-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 40px;
+  }
+
+  .intake-back {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s ease;
+  }
+
+  .intake-back:hover {
+    color: var(--color-text);
+  }
+
+  .intake-step-indicator {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+  }
+
+  .intake-progress {
+    height: 2px;
+    background: var(--color-border);
+    margin: 0 40px;
+  }
+
+  .intake-progress-bar {
+    height: 100%;
+    background: var(--color-accent);
+    transition: width 0.4s ease;
+  }
+
+  .intake-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+
+  .intake-question {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: 48px;
+    text-align: center;
+  }
+
+  .intake-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .intake-option {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 300;
+    padding: 18px 24px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-input-bg);
+    color: var(--color-text);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .intake-option:hover {
+    border-color: var(--color-accent);
+    background: #FDF9F6;
+  }
+
+  .intake-option.selected {
+    border-color: var(--color-accent);
+    background: #FDF9F6;
+  }
+
+  .intake-input-group {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .intake-text-input {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 300;
+    padding: 18px 24px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-input-bg);
+    color: var(--color-text);
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .intake-text-input::placeholder {
+    color: #B0ADA6;
+  }
+
+  .intake-text-input:focus {
+    border-color: var(--color-accent);
+  }
+
+  .intake-submit-btn {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    padding: 16px 28px;
+    background: var(--color-accent);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.15s ease;
+    align-self: flex-start;
+  }
+
+  .intake-submit-btn:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .intake-submit-btn:active {
+    transform: scale(0.98);
+  }
+
+  .intake-confirmation {
+    text-align: center;
+    max-width: 440px;
+  }
+
+  .intake-confirmation h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: 20px;
+  }
+
+  .intake-confirmation p {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 640px) {
+    .navbar {
+      padding: 20px 24px;
+    }
+
+    section {
+      padding: 100px 28px;
+    }
+
+    .cta-form {
+      flex-direction: column;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .cta-form input[type="email"] {
+      width: 100%;
+    }
+
+    .cta-form button {
+      width: 100%;
+      text-align: center;
+    }
+
+    .intake-header {
+      padding: 20px 24px;
+    }
+
+    .intake-progress {
+      margin: 0 24px;
+    }
+
+    .intake-body {
+      padding: 40px 24px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Nav Bar -->
+  <nav class="navbar">
+    <a href="#" class="navbar-wordmark" onclick="scrollToTop(); return false;">Parcel</a>
+    <button class="navbar-cta" onclick="scrollToCta()">Join Waitlist</button>
+  </nav>
+
+  <!-- Section 1: The Problem -->
+  <section class="section-problem">
+    <div class="problem-lines">
+      <p>In Santa Barbara, the house you want is on the market for $1.5M. But the house is only worth $500K. <em>The <span style="color: var(--color-accent)">land</span> is worth $1M.</em></p>
+      <p>But you have to finance it anyway.</p>
+    </div>
+  </section>
+
+  <!-- Section 2: The Reframe -->
+  <section class="section-reframe">
+    <p class="reframe-question">What if you only bought the house?</p>
+    <p class="reframe-explanation">
+      <span style="color: var(--color-accent)">Parcel</span> separates land and structure. You buy the home. We steward the land beneath it under a long-term lease. Your purchase price drops by the value of the land.
+    </p>
+  </section>
+
+  <!-- Section 3: Ownership -->
+  <section class="section-ownership">
+    <p class="ownership-headline">You own your <span style="color: var(--color-accent)">home</span>. Completely.</p>
+    <p class="ownership-details">
+      Sell whenever you want. Refinance. Renovate freely.
+    </p>
+  </section>
+
+  <!-- Section 4: CTA -->
+  <section class="section-cta" id="cta">
+    <p class="cta-headline"><span style="color: var(--color-accent)">Parcel</span> is launching in Santa Barbara.</p>
+    <div class="cta-form">
+      <input type="email" id="heroEmail" placeholder="you@email.com" aria-label="Email address">
+      <button type="button" onclick="startIntakeFromHero()">Join the Waitlist</button>
+    </div>
+    <p class="cta-subtext">
+      Join the waitlist for first access to Parcel homes.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer-text">Santa Barbara, CA</p>
+  </footer>
+
+  <!-- Intake Form Overlay -->
+  <div class="intake-overlay" id="intakeOverlay">
+    <div class="intake-header">
+      <button class="intake-back" onclick="intakeBack()">
+        <span>&#8592;</span> Back
+      </button>
+      <span class="intake-step-indicator" id="stepIndicator">1 / 4</span>
+    </div>
+    <div class="intake-progress">
+      <div class="intake-progress-bar" id="progressBar" style="width: 25%"></div>
+    </div>
+    <div class="intake-body" id="intakeBody"></div>
+  </div>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.25, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reframe-question, .reframe-explanation, .ownership-headline, .ownership-details, .cta-headline, .cta-form, .cta-subtext').forEach(el => observer.observe(el));
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToCta() {
+      document.getElementById('cta').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Intake form
+    let currentStep = 0;
+    const responses = { email: '', name: '', location: '', type: '', timeline: '' };
+
+    const steps = [
+      {
+        question: 'Where do you want to live?',
+        key: 'location',
+        type: 'select',
+        options: ['Santa Barbara', 'Montecito', 'Goleta', 'Carpinteria', 'Somewhere else nearby']
+      },
+      {
+        question: 'What describes you best?',
+        key: 'type',
+        type: 'select',
+        options: ["I'm looking to buy my first home", "I'm looking to move up or downsize", "I'm a current homeowner \u2014 just curious", "I'm an investor or advisor"]
+      },
+      {
+        question: 'How soon are you looking?',
+        key: 'timeline',
+        type: 'select',
+        options: ['Ready now', 'In the next 6 months', 'In the next year', 'Just exploring']
+      }
+    ];
+
+    function startIntakeFromHero() {
+      var emailInput = document.getElementById('heroEmail');
+      var email = emailInput.value.trim();
+
+      if (!email || !email.includes('@')) {
+        emailInput.style.borderColor = '#C4521A';
+        emailInput.focus();
+        return;
+      }
+
+      responses.email = email;
+
+      // Email is captured — log it immediately
+      console.log('Email captured:', email);
+
+      // Now open the enrichment form
+      currentStep = 0;
+      var overlay = document.getElementById('intakeOverlay');
+      overlay.classList.add('show');
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() { overlay.classList.add('fade-in'); });
+      });
+      renderStep();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeIntake() {
+      var overlay = document.getElementById('intakeOverlay');
+      overlay.classList.remove('fade-in');
+      setTimeout(function() {
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    function intakeBack() {
+      if (currentStep === 0) {
+        closeIntake();
+      } else {
+        currentStep--;
+        renderStep();
+      }
+    }
+
+    function renderStep() {
+      var step = steps[currentStep];
+      var body = document.getElementById('intakeBody');
+      var indicator = document.getElementById('stepIndicator');
+      var bar = document.getElementById('progressBar');
+
+      indicator.textContent = (currentStep + 1) + ' / ' + steps.length;
+      bar.style.width = ((currentStep + 1) / steps.length * 100) + '%';
+
+      body.innerHTML =
+        '<p class="intake-question">' + step.question + '</p>' +
+        '<div class="intake-options">' +
+        step.options.map(function(opt) {
+          return '<button class="intake-option" onclick="selectOption(this, \'' + opt.replace(/'/g, "\\'") + '\')">' + opt + '</button>';
+        }).join('') +
+        '</div>';
+    }
+
+    function selectOption(el, value) {
+      var step = steps[currentStep];
+      responses[step.key] = value;
+      el.classList.add('selected');
+
+      setTimeout(function() {
+        if (currentStep < steps.length - 1) {
+          currentStep++;
+          renderStep();
+        } else {
+          showConfirmation();
+        }
+      }, 200);
+    }
+
+    function showConfirmation() {
+      var body = document.getElementById('intakeBody');
+      var indicator = document.getElementById('stepIndicator');
+      var bar = document.getElementById('progressBar');
+
+      indicator.textContent = '';
+      bar.style.width = '100%';
+
+      body.innerHTML =
+        '<div class="intake-confirmation">' +
+        "<h2>You're on the list.</h2>" +
+        "<p>We'll reach out when a Parcel home is available in your area.</p>" +
+        '</div>';
+
+      console.log('Full waitlist submission:', JSON.stringify(responses));
+    }
+  </script>
+
+</body>
+</html>
